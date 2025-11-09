@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from typing import Optional
 from enum import Enum
-from app.story_generator import StoryGenerator
+from .story_generator import StoryGenerator
 from gtts import gTTS
 import os
 import uuid
