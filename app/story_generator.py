@@ -28,13 +28,13 @@ class StoryGenerator:
         else:
             if attention_span == "short":
                 length_desc = "a very short story"
-                max_tokens = 100
+                max_tokens = 150
             elif attention_span == "long":
                 length_desc = "a longer, more detailed story"
-                max_tokens = 400
+                max_tokens = 500
             else:
-                length_desc = "a short engaging story"
-                max_tokens = 250
+                length_desc = "a complete story with beginning, middle, and end"
+                max_tokens = 350
 
             if reading_level == "basic":
                 complexity_desc = "written in simple, easy-to-understand language"
@@ -57,7 +57,8 @@ class StoryGenerator:
             prompt = (
                 f"Write {length_desc} entirely in {lang_name} language for a {age}-year-old child named {name}. "
                 f"The story should be in the {genre} genre, {complexity_desc}, "
-                f"and should end with a positive, calming message for bedtime. "
+                f"have a clear beginning, middle, and conclusion with a moral lesson. "
+                f"End with a positive, calming message for bedtime. "
                 f"IMPORTANT: Respond ONLY in {lang_name}, do not include any English text."
             )
 
