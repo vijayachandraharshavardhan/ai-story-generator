@@ -26,15 +26,19 @@ class StoryGenerator:
             prompt = custom_prompt
             max_tokens = 300
         else:
+            # Adjust token limits for different languages - non-English languages need more tokens
+            # because they use more characters/bytes for the same semantic content
+            token_multiplier = 1.5 if language in ["te", "hi", "es", "fr", "de"] else 1.0
+
             if attention_span == "short":
                 length_desc = "a very short story"
-                max_tokens = 150
+                max_tokens = int(200 * token_multiplier)
             elif attention_span == "long":
                 length_desc = "a longer, more detailed story"
-                max_tokens = 500
+                max_tokens = int(600 * token_multiplier)
             else:
                 length_desc = "a complete story with beginning, middle, and end"
-                max_tokens = 350
+                max_tokens = int(450 * token_multiplier)
 
             if reading_level == "basic":
                 complexity_desc = "written in simple, easy-to-understand language"
