@@ -64,13 +64,22 @@ class StoryGenerator:
             }
             lang_name = language_names.get(language, language)
 
-            prompt = (
-                f"Write {length_desc} entirely in {lang_name} language for a {age}-year-old child named {name}. "
-                f"The story should be in the {genre} genre, {complexity_desc}, "
-                f"have a clear beginning, middle, and conclusion with a moral lesson. "
-                f"End with a positive, calming message for bedtime. "
-                f"IMPORTANT: Respond ONLY in {lang_name}, do not include any English text."
-            )
+            if language == "te":
+                # Special handling for Telugu - use more explicit instructions
+                prompt = (
+                    f"తెలుగు భాషలో మాత్రమే సంపూర్ణంగా రాయండి. {age}-సంవత్సరాల వయస్సు గల {name} పేరు గల పిల్లకు "
+                    f"{genre} జాతీయంలో {length_desc} రాయండి. కథ మొదటి, మధ్య మరియు ముగింపు స్పష్టంగా ఉండాలి, "
+                    f"నీతి పాఠం ఉండాలి. బెడ్‌టైమ్ కోసం సానుకూల, శాంత సందేశంతో ముగించండి. "
+                    f"కథను సంపూర్ణంగా తెలుగులో మాత్రమే రాయండి, ఎటువంటి ఇంగ్లీష్ టెక్స్ట్ ఉండకూడదు."
+                )
+            else:
+                prompt = (
+                    f"Write {length_desc} entirely in {lang_name} language for a {age}-year-old child named {name}. "
+                    f"The story should be in the {genre} genre, {complexity_desc}, "
+                    f"have a clear beginning, middle, and conclusion with a moral lesson. "
+                    f"End with a positive, calming message for bedtime. "
+                    f"IMPORTANT: Respond ONLY in {lang_name}, do not include any English text."
+                )
 
         response = self.client.chat.completions.create(
             model=self.model,
