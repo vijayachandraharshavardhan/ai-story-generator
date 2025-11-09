@@ -43,10 +43,22 @@ class StoryGenerator:
             else:
                 complexity_desc = "with clear language and moderate complexity"
 
+            # Map language codes to full language names for better LLM understanding
+            language_names = {
+                "en": "English",
+                "es": "Spanish",
+                "fr": "French",
+                "de": "German",
+                "te": "Telugu",
+                "hi": "Hindi"
+            }
+            lang_name = language_names.get(language, language)
+
             prompt = (
-                f"Write {length_desc} in {language} for a {age}-year-old child named {name}. "
+                f"Write {length_desc} entirely in {lang_name} language for a {age}-year-old child named {name}. "
                 f"The story should be in the {genre} genre, {complexity_desc}, "
-                f"and should end with a positive, calming message for bedtime."
+                f"and should end with a positive, calming message for bedtime. "
+                f"IMPORTANT: Respond ONLY in {lang_name}, do not include any English text."
             )
 
         response = self.client.chat.completions.create(
