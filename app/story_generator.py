@@ -65,11 +65,15 @@ class StoryGenerator:
             lang_name = language_names.get(language, language)
 
             if language == "te":
-                # Special handling for Telugu - use more explicit instructions
+                # Special handling for Telugu - use more explicit instructions with structured format
                 prompt = (
                     f"తెలుగు భాషలో మాత్రమే సంపూర్ణంగా రాయండి. {age}-సంవత్సరాల వయస్సు గల {name} పేరు గల పిల్లకు "
-                    f"{genre} జాతీయంలో {length_desc} రాయండి. కథ మొదటి, మధ్య మరియు ముగింపు స్పష్టంగా ఉండాలి, "
-                    f"నీతి పాఠం ఉండాలి. బెడ్‌టైమ్ కోసం సానుకూల, శాంత సందేశంతో ముగించండి. "
+                    f"{genre} జాతీయంలో {length_desc} రాయండి. \n\n"
+                    f"కథను ఈ విధంగా నిర్మించండి:\n"
+                    f"1. మొదటి భాగం: కథ ప్రారంభం మరియు పాత్రల పరిచయం\n"
+                    f"2. మధ్య భాగం: సమస్య లేదా సంఘటన\n"
+                    f"3. ముగింపు భాగం: సమస్య పరిష్కారం మరియు నీతి పాఠం\n\n"
+                    f"కథ చివరిలో తప్పకుండా నీతి పాఠం చెప్పండి. బెడ్‌టైమ్ కోసం సానుకూల, శాంత సందేశంతో ముగించండి. "
                     f"కథను సంపూర్ణంగా తెలుగులో మాత్రమే రాయండి, ఎటువంటి ఇంగ్లీష్ టెక్స్ట్ ఉండకూడదు."
                 )
             else:
