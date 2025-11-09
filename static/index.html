@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>✨ AI Story Generator with Adaptive Length & Complexity ✨</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #d9e4dd, #f9f7f1);
+      color: #333;
+      margin: 0;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    main {
+      background: white;
+      max-width: 640px;
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      padding: 30px 40px;
+      transition: box-shadow 0.3s ease;
+    }
+    main:hover {
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+    }
+
+    h1 {
+      text-align: center;
+      color: #2a6041;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 35px;
+      font-size: 2.4rem;
+      user-select: none;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+      color: #3b6a4f;
+      font-size: 1.1rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 18px;
+      margin-top: 8px;
+      border: 2px solid #aac0a9;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      color: #444;
+      resize: vertical;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #4A8854;
+      box-shadow: 0 0 8px #8cc17d88;
+      outline-color: #7ac17a;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      background: linear-gradient(45deg, #4CAF50, #67b26f);
+      color: white;
+      font-weight: 700;
+      font-size: 1.25rem;
+      padding: 16px 0;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(76, 166, 76, 0.6);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+    button:hover {
+      background: linear-gradient(45deg, #3b8a40, #549c53);
+      box-shadow: 0 8px 18px rgba(76, 166, 76, 0.8);
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+
+    #story {
+      margin-top: 35px;
+      padding: 26px 24px;
+      background: #f9f7f1;
+      border-radius: 18px;
+      min-height: 160px;
+      white-space: pre-wrap;
+      font-size: 1.2rem;
+      color: #3b5d3b;
+      box-shadow: inset 0 0 10px #def0d6;
+      line-height: 1.6;
+      user-select: text;
+      transition: background 0.3s ease;
+    }
+
+    audio {
+      margin-top: 22px;
+      width: 100%;
+      outline: none;
+      border-radius: 14px;
+      box-shadow: 0 3px 7px rgba(0,0,0,0.1);
+      user-select: none;
+    }
+
+    #storyImage {
+      margin-top: 30px;
+      max-width: 100%;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      display: none;
+      user-select: none;
+      transition: opacity 0.4s ease;
+    }
+    #storyImage.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    #startRecording {
+      margin-top: 8px;
+      background: #6cc04a;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #startRecording:hover {
+      background: #599d3e;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      main {
+        padding: 25px 20px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      input, select, textarea {
+        font-size: 1rem;
+      }
+      button {
+        font-size: 1.1rem;
+        padding: 14px 0;
+      }
+      #story {
+        font-size: 1.1rem;
+        min-height: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>✨ AI Story Generator ✨</h1>
+
+    <label for="name">Child's Name:</label>
+    <input type="text" id="name" placeholder="e.g., Emma" autocomplete="off" />
+    <button id="startRecording" type="button" title="Click and speak your child's name">🎤 Speak Name</button>
+
+    <label for="age">Child's Age:</label>
+    <input type="number" id="age" min="1" max="12" placeholder="e.g., 6" />
+
+    <label for="genre">Story Genre:</label>
+    <select id="genre">
+      <option value="fantasy">Fantasy</option>
+      <option value="adventure">Adventure</option>
+      <option value="friendship">Friendship</option>
+      <option value="animal">Animal</option>
+      <option value="moral">Moral</option>
+    </select>
+
+    <label for="language">Story Language:</label>
+    <select id="language">
+      <option value="en" selected>English</option>
+      <option value="es">Spanish</option>
+      <option value="fr">French</option>
+      <option value="de">German</option>
+      <option value="te">Telugu</option>
+      <option value="hi">Hindi</option>
+      <option value="ot">Others</option>
+    </select>
+
+    <label for="attention_span">Attention Span:</label>
+    <select id="attention_span">
+      <option value="short">Short (brief story)</option>
+      <option value="medium" selected>Medium (standard story)</option>
+      <option value="long">Long (detailed story)</option>
+    </select>
+
+    <label for="reading_level">Reading Level:</label>
+    <select id="reading_level">
+      <option value="basic" selected>Basic (simple language)</option>
+      <option value="intermediate">Intermediate (moderate complexity)</option>
+      <option value="advanced">Advanced (rich vocabulary)</option>
+    </select>
+
+    <label for="prompt">Custom Prompt (optional):</label>
+    <textarea id="prompt" rows="4" placeholder="Enter a custom prompt for the story"></textarea>
+
+    <button onclick="generateStory()">Generate Story</button>
+
+    <h2>📖 Your Story:</h2>
+    <div id="story">Your story will appear here...</div>
+
+    <audio id="audioPlayer" controls style="display:none;"></audio>
+
+    <h2>🖼️ Your Story Image:</h2>
+    <img id="storyImage" alt="Story illustration" />
+
+  </main>
+
+  <script>
+    // Voice input for child name
+    const startBtn = document.getElementById("startRecording");
+    const nameInput = document.getElementById("name");
+
+    startBtn.onclick = () => {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Speech Recognition API not supported in this browser.");
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US'; // You can sync this with language selection if desired
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const speechResult = event.results[0][0].transcript;
+        nameInput.value = speechResult;
+      };
+
+      recognition.onerror = (event) => {
+        alert("Speech recognition error: " + event.error);
+      };
+    };
+
+    async function generateStory() {
+      const name = nameInput.value.trim();
+      const age = document.getElementById("age").value;
+      const genre = document.getElementById("genre").value;
+      const language = document.getElementById("language").value;
+      const attentionSpan = document.getElementById("attention_span").value;
+      const readingLevel = document.getElementById("reading_level").value;
+      const prompt = document.getElementById("prompt").value.trim();
+
+      if (!name || !age) {
+        alert("Please fill out the child's name and age.");
+        return;
+      }
+
+      const storyDiv = document.getElementById("story");
+      const audioPlayer = document.getElementById("audioPlayer");
+      const storyImage = document.getElementById("storyImage");
+
+      storyDiv.innerText = "Generating story... Please wait ✨";
+      audioPlayer.style.display = "none";
+      storyImage.classList.remove("visible");
+      storyImage.style.opacity = 0;
+
+      const bodyData = { 
+        name, 
+        age: parseInt(age), 
+        genre, 
+        language,
+        attention_span: attentionSpan,
+        reading_level: readingLevel
+      };
+      if (prompt) {
+        bodyData.prompt = prompt;
+      }
+
+      try {
+        const response = await fetch("/generate_story_audio", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(bodyData)
+        });
+        const data = await response.json();
+
+        if (data.story) {
+          storyDiv.innerText = data.story;
+
+          if (data.audio_url) {
+            audioPlayer.src = data.audio_url;
+            audioPlayer.style.display = "block";
+          } else {
+            audioPlayer.style.display = "none";
+          }
+
+          if (data.image_url) {
+            storyImage.src = data.image_url;
+            storyImage.classList.add("visible");
+          } else {
+            storyImage.classList.remove("visible");
+            storyImage.src = "";
+          }
+        } else {
+          storyDiv.innerText = "❌ Failed to generate story.";
+          audioPlayer.style.display = "none";
+          storyImage.classList.remove("visible");
+        }
+      } catch (err) {
+        console.error(err);
+        storyDiv.innerText = "⚠️ Error connecting to server.";
+        audioPlayer.style.display = "none";
+        storyImage.classList.remove("visible");
+      }
+    }
+  </script>
+</body>
+</html>
